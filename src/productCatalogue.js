@@ -20,5 +20,13 @@ class Catalogue {
     return false;
   }
 
+  findProductsByNameLike(subString) {
+    const matches = this.products.filter(function(product) {
+      const position = product.name.search(subString)
+      return position !== -1
+    } )
+    return matches;
+  }
+
 }
 module.exports = Catalogue;
