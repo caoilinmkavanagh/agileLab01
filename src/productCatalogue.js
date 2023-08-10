@@ -36,5 +36,17 @@ class Catalogue {
     }
     return false;
   }
+  
+  checkReorder() {
+    const productsToReorder = this.products.filter(product => product.quantityInStock <= product.reorderLevel);
+    const productIds = productsToReorder.map(product => product.id);
+  
+    return {
+      type: "Reorder",
+      productIds: productIds
+    };
+  }
+  
+  
 }
 module.exports = Catalogue;
