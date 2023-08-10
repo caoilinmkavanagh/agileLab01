@@ -36,7 +36,5 @@ class Catalogue {
     }
     return false;
   }
-  
-
 }
 module.exports = Catalogue;

@@ -26,7 +26,9 @@ if (response === false)
   console.log('\tPassed')
 else
   console.log('failed')
-//================================
+
+//=====Test Find Product By Name =========
+
 cat = new Catalogue("Test Catalogue");
 console.log('Test findProductByNameLike')
 
@@ -66,7 +68,7 @@ if (matches.length === 0)
 else
   console.log('\tFailed')
 
-/////////Test remove by id
+//=====Test Remove by Id =========
 
 // Initialize Catalogue with products
 cat = new Catalogue("Test Catalogue");
@@ -103,3 +105,43 @@ if (response === false)
 else
   console.log('\tFailed');
 
+//=====Test Reordering =========
+console.log("\tGiven the catalogue has some products with low stock, it returns an object with the product ids that need reordering");
+
+// Setup products with quantities equal to or below their reorder levels
+cat.addProduct(new Product("A123", "Product 1", 110, 100, 10.0));
+cat.addProduct(new Product("A124", "Widget 1", 9, 10, 10.0)); // Needs reordering
+cat.addProduct(new Product("A125", "Product 2", 110, 100, 10.0));
+cat.addProduct(new Product("A126", "Widget 2", 5, 10, 10.0)); // Needs reordering
+cat.addProduct(new Product("A127", "Bracket 1", 5, 10, 10.0)); // Needs reordering
+cat.addProduct(new Product("A128", "Product 3", 110, 100, 10.0));
+
+let reorderResponse = cat.checkReorder();
+
+// Expectation
+if (reorderResponse.type === "Reorder" &&
+    reorderResponse.productIds.length === 3 &&
+    reorderResponse.productIds.includes('A124') &&
+    reorderResponse.productIds.includes('A126') &&
+    reorderResponse.productIds.includes('A127'))
+  console.log('\tPassed');
+else
+  console.log('\tFailed', reorderResponse);
+
+  console.log("\tGiven the catalogue has no products that need reordering, it returns an object with an empty array");
+
+  // Reset catalogue and test when no products need reordering
+  cat = new Catalogue("Test Catalogue");
+  cat.addProduct(new Product("A123", "Product 1", 110, 100, 10.0));
+  cat.addProduct(new Product("A125", "Product 2", 110, 100, 10.0));
+  cat.addProduct(new Product("A126", "Widget 2", 110, 100, 10.0));
+  cat.addProduct(new Product("A128", "Product 3", 110, 100, 10.0));
+  
+  reorderResponse = cat.checkReorder();
+  
+  // Expectation
+  if (reorderResponse.type === "Reorder" && reorderResponse.productIds.length === 0)
+    console.log('\tPassed');
+  else
+    console.log('\tFailed', reorderResponse);
+  
