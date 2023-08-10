@@ -65,3 +65,41 @@ if (matches.length === 0)
   console.log('\tPassed')
 else
   console.log('\tFailed')
+
+/////////Test remove by id
+
+// Initialize Catalogue with products
+cat = new Catalogue("Test Catalogue");
+cat.addProduct(p123);
+cat.addProduct(p124);
+cat.addProduct(p125);
+cat.addProduct(p126);
+cat.addProduct(p127);
+cat.addProduct(p128);
+
+console.log('Test removeProductById');
+
+console.log("\tGiven the catalogue has some products, when we remove a product by its existing id, then it returns true");
+response = cat.removeProductById("A123");
+// Expectation
+if (response === true)
+  console.log('\tPassed');
+else
+  console.log('\tFailed');
+
+console.log("\tGiven we remove a product by a non-existing id, then it returns false");
+response = cat.removeProductById("A999");
+// Expectation
+if (response === false)
+  console.log('\tPassed');
+else
+  console.log('\tFailed');
+
+console.log("\Given an attempt to remove a product that was already removed by its id, then it returns false");
+response = cat.removeProductById("A123");
+// Expectation
+if (response === false)
+  console.log('\tPassed');
+else
+  console.log('\tFailed');
+
